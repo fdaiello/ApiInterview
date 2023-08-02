@@ -39,12 +39,35 @@ namespace ApiInterview.Services
             }
 
         }
-        public async Task<string> PostResultAsync(Result result)
+        public async Task<string> PostResultAsync(ResultDto1 resultDto)
         {
             var uri = "https://interview.adpeai.com/api/v1/submit-task";
 
             using var httpClient = new HttpClient();
-            var content = JsonConvert.SerializeObject(result);
+            var content = JsonConvert.SerializeObject(resultDto);
+            var data = new StringContent(content, Encoding.UTF8, "application/json");
+
+            try
+            {
+                var response = await httpClient.PostAsync(uri, data);
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                return responseContent;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("CustomerApi.GetTAskAsync: {Message}", ex.Message);
+                return ex.Message;
+            }
+
+        }
+        public async Task<string> PostResultAsync(ResultDto2 resultDto)
+        {
+            var uri = "https://interview.adpeai.com/api/v1/submit-task";
+
+            using var httpClient = new HttpClient();
+            var content = JsonConvert.SerializeObject(resultDto);
             var data = new StringContent(content, Encoding.UTF8, "application/json");
 
             try

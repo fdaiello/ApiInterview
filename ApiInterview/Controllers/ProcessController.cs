@@ -58,7 +58,17 @@ namespace ApiInterview.Controllers
                 {
                     await _context.SaveChangesAsync();
 
-                    var msg = await _customerApi.PostResultAsync(result);
+                    string msg;
+                    if ( task.Operation == "multiplication" || task.Operation == "addition")
+                    {
+                        var resultDto = new ResultDto2(result);
+                        msg = await _customerApi.PostResultAsync(resultDto);
+                    }
+                    else
+                    {
+                        var resultDto = new ResultDto1(result);
+                        msg = await _customerApi.PostResultAsync(resultDto);
+                    }
 
                     return msg;
 
